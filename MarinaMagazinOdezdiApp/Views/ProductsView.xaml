@@ -1,0 +1,84 @@
+<UserControl x:Class="MarinaMagazinOdezdiApp.Views.ProductsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="720" d:DesignWidth="1080">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Control Panel -->
+        <GroupBox Header="Фильтры и управление" Grid.Row="0" Margin="0,0,0,20">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*" MinWidth="150"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*" MinWidth="150"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*" MinWidth="150"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Поиск:" VerticalAlignment="Center" Margin="10,0"/>
+                <TextBox Grid.Column="1" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Grid.Column="2" Text="Категория:" VerticalAlignment="Center" Margin="20,0,10,0"/>
+                <ComboBox Grid.Column="3" ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory}" DisplayMemberPath="CategoryName"/>
+
+                <TextBlock Grid.Column="4" Text="Сортировка:" VerticalAlignment="Center" Margin="20,0,10,0"/>
+                <ComboBox Grid.Column="5" ItemsSource="{Binding SortOptions}" SelectedItem="{Binding SelectedSortOption}"/>
+
+                <Button Grid.Column="6" Content="Корзина" Command="{Binding ViewCartCommand}" Margin="30,0,10,0"/>
+                <Button Grid.Column="7" Content="Профиль" Command="{Binding ViewProfileCommand}" Margin="0,0,10,0"/>
+            </Grid>
+        </GroupBox>
+
+        <!-- Products Display -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding Products}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel HorizontalAlignment="Center"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Style="{StaticResource Container.Card}" Width="280" Margin="15">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0" Text="{Binding Name}" Style="{StaticResource TextBlock.SubHeader}" TextWrapping="Wrap"/>
+                                
+                                <TextBlock Grid.Row="1" Text="{Binding Description}" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" Foreground="{StaticResource Brush.Text.Secondary}" MinHeight="60" Margin="0,5,0,15"/>
+
+                                <Grid Grid.Row="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="{Binding Price, StringFormat={}{0:C}, ConverterCulture=ru-RU}" FontWeight="Bold" FontSize="18" VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Column="1" Text="{Binding StockQuantity, StringFormat={}В наличии: {0}}" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="{StaticResource Brush.Text.Secondary}"/>
+                                    
+                                    <Button Grid.ColumnSpan="2" Content="Добавить в корзину"
+                                            Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}, Path=DataContext.AddToCartCommand}" 
+                                            CommandParameter="{Binding}" 
+                                            Margin="0,40,0,0" HorizontalAlignment="Stretch"/>
+                                </Grid>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

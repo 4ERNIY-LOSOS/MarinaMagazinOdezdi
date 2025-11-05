@@ -1,0 +1,56 @@
+<UserControl x:Class="MarinaMagazinOdezdiApp.Views.CartView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Корзина" Style="{StaticResource TextBlock.Title}"/>
+
+        <ListView ItemsSource="{Binding CartItems}" Grid.Row="1" Margin="0,10">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Товар" Width="300" DisplayMemberBinding="{Binding Name}"/>
+                    <GridViewColumn Header="Цена" Width="150" DisplayMemberBinding="{Binding Price, StringFormat={}{0:C}, ConverterCulture=ru-RU}"/>
+                    <GridViewColumn Header="Количество" Width="150">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <Button Content="-" Command="{Binding DecreaseQuantityCommand}" Width="30"/>
+                                    <TextBox Text="{Binding Quantity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="50" TextAlignment="Center" VerticalAlignment="Center"/>
+                                    <Button Content="+" Command="{Binding IncreaseQuantityCommand}" Width="30"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Сумма" Width="150" DisplayMemberBinding="{Binding Subtotal, StringFormat={}{0:C}, ConverterCulture=ru-RU}"/>
+                    <GridViewColumn Header="Действия" Width="120">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Удалить" Command="{Binding RemoveCommand}" Foreground="Red"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0" Content="Вернуться к покупкам" Command="{Binding BackToProductsCommand}" HorizontalAlignment="Left"/>
+            <TextBlock Grid.Column="1" Text="{Binding TotalPrice, StringFormat='Итого: {0:C}', ConverterCulture=ru-RU}" FontSize="22" FontWeight="Bold" VerticalAlignment="Center" Margin="20,0"/>
+            <Button Grid.Column="2" Content="Перейти к оформлению" Command="{Binding ProceedToCheckoutCommand}" />
+        </Grid>
+    </Grid>
+</UserControl>

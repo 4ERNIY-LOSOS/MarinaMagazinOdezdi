@@ -1,0 +1,36 @@
+﻿<Application x:Class="MarinaMagazinOdezdiApp.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:MarinaMagazinOdezdiApp"
+             xmlns:viewmodels="clr-namespace:MarinaMagazinOdezdiApp.ViewModels"
+             xmlns:views="clr-namespace:MarinaMagazinOdezdiApp.Views"
+             xmlns:converters="clr-namespace:MarinaMagazinOdezdiApp.Converters">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/Layout.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+
+            <DataTemplate DataType="{x:Type viewmodels:LoginRegisterViewModel}">
+                <views:LoginRegisterView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewmodels:ProductsViewModel}">
+                <views:ProductsView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewmodels:CartViewModel}">
+                <views:CartView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewmodels:CheckoutViewModel}">
+                <views:CheckoutView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewmodels:AdminViewModel}">
+                <views:AdminView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewmodels:UserProfileViewModel}">
+                <views:UserProfileView/>
+            </DataTemplate>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

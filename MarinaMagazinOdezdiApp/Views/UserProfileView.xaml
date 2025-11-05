@@ -1,0 +1,90 @@
+<UserControl x:Class="MarinaMagazinOdezdiApp.Views.UserProfileView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="720" d:DesignWidth="1080">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Button Content="Назад к товарам" Command="{Binding GoBackCommand}" HorizontalAlignment="Left"/>
+
+        <GroupBox Header="Данные пользователя" Grid.Row="1" Margin="0,20,0,20">
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Имя:" FontWeight="Bold" Margin="0,5,15,5"/>
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding CurrentUser.FirstName}" Margin="0,5"/>
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Фамилия:" FontWeight="Bold" Margin="0,5,15,5"/>
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding CurrentUser.LastName}" Margin="0,5"/>
+
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Email:" FontWeight="Bold" Margin="0,5,15,5"/>
+                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding CurrentUser.Email}" Margin="0,5"/>
+            </Grid>
+        </GroupBox>
+
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="История заказов" Style="{StaticResource TextBlock.Header}"/>
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding Orders}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Style="{StaticResource Container.Card}" Margin="0,0,0,15">
+                                <Expander>
+                                    <Expander.Header>
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock Text="{Binding OrderDate, StringFormat='dd.MM.yyyy'}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding TotalAmount, StringFormat={}Сумма: {0:C}}" FontWeight="Normal" Foreground="{StaticResource Brush.Text.Secondary}"/>
+                                        </StackPanel>
+                                    </Expander.Header>
+                                    <StackPanel Margin="15,10">
+                                        <TextBlock Text="Адрес доставки:" FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding ShippingCity, StringFormat={}г. {0}}" Margin="10,5,0,0"/>
+                                        <TextBlock Text="{Binding ShippingStreet, StringFormat={}ул. {0}}" Margin="10,0,0,0"/>
+                                        <TextBlock Text="{Binding ShippingHouseNumber, StringFormat={}д. {0}}" Margin="10,0,0,10"/>
+
+                                        <TextBlock Text="Состав заказа:" FontWeight="Bold" Margin="0,10,0,5"/>
+                                        <ItemsControl ItemsSource="{Binding OrderItems}" Margin="10,0,0,0">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid Margin="0,2">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock Grid.Column="0" Text="{Binding Product.Name}"/>
+                                                        <TextBlock Grid.Column="1" Text="{Binding Quantity, StringFormat={}x{0}}" Margin="10,0"/>
+                                                        <TextBlock Grid.Column="2" Text="{Binding UnitPrice, StringFormat={}{0:C}}"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </StackPanel>
+                                </Expander>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</UserControl>
