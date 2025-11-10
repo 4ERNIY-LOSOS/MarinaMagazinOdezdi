@@ -65,3 +65,4 @@ GO
 
 PRINT 'Database has been cleaned and seeded with test data.';
 GO
+-- Added comment to force git to recognize the file as modified.
