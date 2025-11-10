@@ -79,7 +79,10 @@ BEGIN
         OrderId INT PRIMARY KEY IDENTITY(1,1),
         UserId INT FOREIGN KEY REFERENCES Users(UserId),
         OrderDate DATETIME NOT NULL DEFAULT GETDATE(),
-        TotalAmount DECIMAL(10, 2) NOT NULL
+        TotalAmount DECIMAL(10, 2) NOT NULL,
+        ShippingCity NVARCHAR(255),
+        ShippingStreet NVARCHAR(255),
+        ShippingHouseNumber NVARCHAR(255)
     );
 END
 GO
